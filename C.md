@@ -31,7 +31,7 @@ int main(void)
 
 如何像一个计算机科学家那样去思考问题？*David J.Malan* 用黑箱进行了阐明。
 
-![pic](pic/cs50Week0Slide38.png) 
+![pic](https://github.com/WBlackhole/CS50_note/raw/master/pic/cs50Week0Slide38.png) 
 
 在这里 *input* 就是实际问题，中间的黑箱就是我们解决该问题的具体方案，或者简单点称作 *program* 。经过运算，黑箱最终将输出问题的结果 *output* 。 
 
@@ -59,7 +59,7 @@ int main(void)
 
 在很多年前，美国人规定了这个映射关系，叫 *Ascii* 码。 *Ascii* 码表就是二进制数据翻译为 *Ascii* 码的“黑箱”。
 
-![pic](pic/cs50Week0Slide93.png)
+![pic](https://github.com/WBlackhole/CS50_note/raw/master/pic/cs50Week0Slide93.png)
 
 可以看到总共有 *128* 个映射关系，需要用 *7* 位二进制来表示这 *128* 个 *Ascii* 码。随着互联网的发展， *Ascii* 码的弊端逐渐暴露——它能表示的符号太少了！例如表情 *emojis* 、汉字符号就没有映射，因此后面出现了有着更多映射关系的 *Unicode* 码。
 
