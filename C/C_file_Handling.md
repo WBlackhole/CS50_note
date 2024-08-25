@@ -389,3 +389,61 @@ fread(void *ptr, size_t size, size_t count, FILE *stream);
  * 读取的数据存放在ptr指向的内存 —> 读取size bytes大小 * count个数据元素 —> stream的数据来源于文件
  */
 ```
+
+<br>
+
+## **C语言实现get_string()**
+
+<br>
+
+众所周知啊，*C* 语言没有函数可以实现像 *python* 的 *input()* 函数那样，可以接收用户不定长的字符串输入。*gets()* 也不可以，因为它需要指定输入的最大长度，倘若不指定长度，可能会发生内存溢出的可能，因为最终 *get()* 从输入端接收的字符都会一股脑给存储字符串的内存，而这块内存是编程者事先分配好大小的。
+
+所以要实现 *python* 的 *input()* 函数，怎么办？*Overflow* 社区有解答：[get_line()](https://stackoverflow.com/questions/314401/how-to-read-a-line-from-the-console-in-c/314422#314422)。采用了实时检查输入字符串长度和动态分配内存的思路，很不错，函数原型如下：
+
+```c
+char * getline(void) 
+{
+    char * line = malloc(100), * linep = line;
+    size_t lenmax = 100, len = lenmax;
+    int c;
+    
+    if(line == NULL)
+        return NULL;
+
+    for(;;) 
+    {
+        c = fgetc(stdin);
+        if(c == EOF)
+            break;
+
+        if(--len == 0) 
+        {
+            len = lenmax;
+            char * linen = realloc(linep, lenmax *= 2);
+
+            if(linen == NULL)
+            {
+                free(linep);
+                return NULL;
+            }
+            line = linen + (line - linep);
+            linep = linen;
+        }
+
+        if((*line++ = c) == '\n')
+            break;
+    }
+    *line = '\0';
+    return linep;
+}
+```
+
+值得注意的是，这个函数会将输入的回车符号'\n'作为输入字符串的一部分。若不需要最后的回车符，可以将函数中最后的`*line = '\0';`改为`*--line = '\0';`。关于这个函数原型，我的学习记录如下：
+
+1. `realloc(linep, lenmax *= 2)`，这种在函数形参在括号内进行运算的写法，我第一次遇见，给了我比较大的震撼。这个写法巧妙在，`*=`运算符的运算优先级高于`,`，因此会先执行`lenmax *= 2`，然后结果作为形参传递进函数。这种写法可以使得程序表达更为简洁，好巧不巧，我这个人最爱简洁的程序。
+
+2. 整个程序共有三个指针来指向动态分配的空间： *line* 、 *linen* 、 *linep* 。其中， *line* 实时指向字符串的最后一位字符地址， *linen* 和 *linep* 都指向内存首地址。为什么需要两个指针来指向内存首地址呢？
+ - 当 *realloc* 出错返回 *NULL* ，需要释放 *linen* 指向的旧内存空间。
+ - 需要 *linen* 指向旧内存空间首地址，方便计算利用 `line - linen` 计算当前字符串长度。 
+
+3. `if((*line++ = c) == '\n')`这个式子也很精彩。一个式子同时实现了line指针增一、赋值、字符是否相等判断...
