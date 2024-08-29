@@ -50,7 +50,7 @@
 
 <br>
 
-编译总共有四个过程：预处理 -> 编译 -> 汇编 -> 链接。文件转变：filename.i -> filename.s -> filename.o -> filename
+编译总共有四个过程：预处理 -> 编译 -> 汇编 -> 链接。文件转变：filename.c -> filename.i -> filename.s -> filename.o -> filename。
 
 <center>
 
