@@ -76,7 +76,7 @@ typedef struct node
 }
 node;
 
-node *head; // head node
+node *head; // head pointer 
 ```
 
 ```c
@@ -140,7 +140,7 @@ while (p != NULL)
 }
 
 // version2
-for (node *p = head; p != NULL; p = p->next)
+for (node *p = head->next; p != NULL; p = p->next)
     printf("%d\n", p->data);
 ```
 
@@ -299,4 +299,26 @@ p->next = p->next->next;
 free(temp);
 ```
 
+<br>
 
+### **Other-reverse**
+
+<br>
+
+[翻转链表:](https://www.geeksforgeeks.org/reverse-a-linked-list/)
+
+```c
+Node *reverse(Node *head)
+{
+    Node *pre = NULL, *curr = head, *next;
+    while (curr != NULL)
+    {
+        next = curr->next;
+        curr->next = pre;
+        pre = curr;
+        curr = next;
+    }
+    
+    return pre;
+}
+```
